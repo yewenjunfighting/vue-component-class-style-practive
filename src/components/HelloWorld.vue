@@ -1,21 +1,30 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
+    <el-button type="primary" v-on:click="communication">{{ info }}</el-button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+// 属性修饰符
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Button, Select } from 'element-ui';
+
+Vue.component(Button.name, Button);
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+  // !:非空断言参数，表示一定会有值
+  private info: string = '父子组件通信测试';
+  @Prop({default: 'Hello World'}) private msg!: string;
+
+  // 用@Emit进行父子组件通信
+  @Emit('fromSon')
+  private communication(): string {
+    return this.info;
+  }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
